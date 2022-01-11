@@ -61,8 +61,6 @@ class TicketListSerializer(ModelSerializer):
                   'support_ticket', 'comments', 'status')
 
 
-
-
 class TicketDetailSerializer(ModelSerializer):
     client = SerializerMethodField(read_only=True)
 
