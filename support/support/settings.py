@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'supportservice.apps.SupportserviceConfig',
-    # 'users.apps.UsersConfig',
     'users',
     'rest_framework',
     'tickets.apps.TicketsConfig',
@@ -95,8 +95,6 @@ DATABASES = {
 #         'PORT': config('PORT'),
 #     }
 # }
-
-
 
 
 # Password validation

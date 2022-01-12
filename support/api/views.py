@@ -1,27 +1,24 @@
-from django.shortcuts import render
-
-# Create your views here.
-from tickets.models import Tickets
-from api.serializers import UserSerializer, TicketDetailSerializer, \
-    TicketListSerializer
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAdminUser
-from .permissions import IsAuthorOrReadOnly
 from django.contrib.auth import get_user_model
+from rest_framework.permissions import IsAdminUser
+from rest_framework.viewsets import ModelViewSet
+
+from api.serializers import TicketDetailSerializer, TicketListSerializer, UserSerializer
+from api.permissions import IsAuthorOrReadOnly
+from tickets.models import Tickets
 
 
 class UserViewSet(ModelViewSet):
     model = get_user_model()
     queryset = model.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAdminUser,)
 
 
 class TicketViewSet(ModelViewSet):
     model = Tickets
     queryset = model.objects.none()
     serializer_class = TicketDetailSerializer
-    permission_classes = (IsAuthorOrReadOnly, )
+    permission_classes = (IsAuthorOrReadOnly,)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -37,7 +34,6 @@ class TicketViewSet(ModelViewSet):
         # serializer.save(client=self.request.user) # Вернуть, это если не сработает нижний
         serializer.validated_data['client'] = self.request.user
         serializer.save()
-
 
 # class CommentViewSet(ModelViewSet):
 #     queryset = Comment.objects.all()

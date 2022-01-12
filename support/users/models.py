@@ -1,8 +1,7 @@
-# from django.contrib.auth.models import UserManager
-from django.contrib.auth.hashers import make_password, identify_hasher
-from django.contrib.auth.models import Permission, GroupManager
-from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.hashers import identify_hasher, make_password
+from django.contrib.auth.models import GroupManager, Permission
+from django.db import models
 from django.db.models import BooleanField
 
 
