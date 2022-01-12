@@ -1,7 +1,6 @@
 from django.urls import reverse
-
-from tickets.models import Tickets
 from rest_framework.test import APITestCase
+from tickets.models import Tickets
 
 
 class TicketsApiTestCase(APITestCase):

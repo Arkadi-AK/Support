@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy
 
 from support.settings import AUTH_USER_MODEL
 
@@ -6,12 +7,19 @@ User = AUTH_USER_MODEL
 
 
 class Tickets(models.Model):
-    TICKET_STATUS = [
-        (0, 'In waiting'),
-        (1, 'In works'),
-        (2, 'Done'),
-    ]
-    status = models.SmallIntegerField(choices=TICKET_STATUS, default=0, verbose_name='Статус заявки')
+
+    class TicketStatus(models.TextChoices):
+        wait = 0, gettext_lazy('Solved')
+        works = 1, gettext_lazy('Unresolved')
+        done = 2, gettext_lazy('Frozen')
+
+    status = models.CharField(
+        max_length=2,
+        choices=TicketStatus.choices,
+        default=TicketStatus.wait,
+        verbose_name='Статус заявки',
+    )
+
     client = models.ForeignKey(User,
                                on_delete=models.CASCADE,
                                limit_choices_to={'support': False},

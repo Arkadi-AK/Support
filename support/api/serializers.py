@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
-from rest_framework.serializers import HyperlinkedIdentityField, ModelSerializer, SerializerMethodField
+from rest_framework.serializers import (HyperlinkedIdentityField,
+                                        ModelSerializer, SerializerMethodField)
 from tickets.models import Tickets
 
 

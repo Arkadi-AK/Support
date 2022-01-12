@@ -145,3 +145,4 @@ cython_debug/
 .idea!/support/db++.sqlite3
 
 .idea
+!/support/db — пустая копия.sqlite3
