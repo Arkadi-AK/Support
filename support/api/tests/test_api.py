@@ -1,8 +1,6 @@
 from django.urls import reverse
 from rest_framework.test import APITestCase
 
-from tickets.models import Tickets
-
 
 class TicketsApiTestCase(APITestCase):
     def test_get(self):
