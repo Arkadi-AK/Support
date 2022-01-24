@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
 from rest_framework.serializers import (HyperlinkedIdentityField,
                                         ModelSerializer, SerializerMethodField)
-from tickets.models import Tickets
+
+from tickets.models import Messages, Tickets
 
 
 class UserSerializer(ModelSerializer):
@@ -23,52 +24,47 @@ class UserSerializer(ModelSerializer):
         return super().update(instance, validated_data)
 
 
-# class CommentSerializer(ModelSerializer):
-#     replys = SerializerMethodField()
-#
-#     def get_replys(self, obj):
-#         queryset = Comment.objects.filter(parent_id=obj.id)
-#         serializer = CommentSerializer(queryset, many=True)
-#         return serializer.data
-#
-#     class Meta:
-#         model = Comment
-#         fields = ('content', 'user', 'parent', 'replys')
+class MessagesSerializer(ModelSerializer):
+    replys = SerializerMethodField()
+
+    def get_replys(self, obj):
+        queryset = Messages.objects.filter(parent_id=obj.id)
+        serializer = MessagesSerializer(queryset, many=True)
+        return serializer.data
+
+    class Meta:
+        model = Messages
+        fields = ('user', 'content', 'replys')
 
 
 class TicketListSerializer(ModelSerializer):
     url = HyperlinkedIdentityField(view_name='tickets-detail')
     client = SerializerMethodField(read_only=True)
     support_ticket = SerializerMethodField(read_only=True)
-    comments = SerializerMethodField()
 
     def get_client(self, obj):
-        # return str(obj.client.email)
         return str(obj.client)
 
     def get_support_ticket(self, obj):
         return str(obj.support_ticket)
 
-    def get_comments(self, obj):
-        pass
-
-    #     queryset = Comment.objects.filter(ticket_id=obj.id, parent_id=None)
-    #     serializer = CommentSerializer(queryset, many=True)
-    #     return serializer.data
-
     class Meta:
         model = Tickets
-        fields = ('id', 'title', 'url', 'client',
-                  'support_ticket', 'comments', 'status')
+        fields = ('url', 'title', 'text', 'client', 'support_ticket', 'status')
 
 
 class TicketDetailSerializer(ModelSerializer):
     client = SerializerMethodField(read_only=True)
+    messages = SerializerMethodField()
 
     def get_client(self, obj):
         return str(obj.client.email)
-        # return str(obj)
+
+    def get_messages(self, obj):
+        queryset = Messages.objects.filter(ticket_id=obj.id, parent_id=None)
+        serializer = MessagesSerializer(queryset, many=True)
+        return serializer.data
 
     class Meta:
         model = Tickets
-        fields = ('title', 'text', 'client', 'status')
+        fields = ('url', 'title', 'text', 'client', 'status', 'messages')

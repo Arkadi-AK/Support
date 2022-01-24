@@ -23,7 +23,6 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    # Возможно нужно переименовать create_superuser в create_admin, чтобы было понятнее
     def create_superuser(self, email, password=None, name=None):
         user = self.create_user(email, name=name, password=password,
                                 is_staff=True, is_admin=True)
@@ -94,12 +93,9 @@ class User(AbstractBaseUser):
         super().save(*args, **kwargs)
 
 
-# =========================================================
-
-
 class UserGroup(models.Model):
     """
-Добавляем группы пользователей для установки разрешений
+Adding user groups to set permissions
     """
     name = models.CharField(max_length=150, unique=True)
     permissions = models.ManyToManyField(

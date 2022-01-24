@@ -136,5 +136,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Переопределение метода, откуда брать юзера по умолчанию
+# Redefined method, where to get the default user from
 AUTH_USER_MODEL = 'users.User'
